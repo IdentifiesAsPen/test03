@@ -1,0 +1,17 @@
+const int MAX_N = 200005;
+
+vector<int> adj[MAX_N];
+int tin[MAXN], sz[MAX_N], order[MAX_N];
+int timer = 0;
+
+void dfs(int u, int p) {
+  tin[u] = timer;
+  order[timer++] = u;
+  sz[u] = 1;
+  for (int v : adj[u]) {
+    if (v == p) continue;
+
+    dfs(v, u);
+    sz[u] += sz[v];
+  }
+}
