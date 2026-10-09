@@ -36,24 +36,4 @@ template <class T> class MinSegmentTree {
 };
 
 int main() {
-	int arr_len;
-	int query_num;
-	std::cin >> arr_len >> query_num;
-
-	MinSegmentTree<int> segtree(arr_len);
-	for (int i = 0; i < arr_len; i++) {
-		int n;
-		std::cin >> n;
-		segtree.set(i, n);
-	}
-
-	for (int q = 0; q < query_num; q++) {
-		int type, arg1, arg2;
-		std::cin >> type >> arg1 >> arg2;
-		if (type == 1) {
-			segtree.set(arg1 - 1, arg2);
-		} else if (type == 2) {
-			cout << segtree.range_min(arg1 - 1, arg2) << '\n';
-		}
-	}
 }
