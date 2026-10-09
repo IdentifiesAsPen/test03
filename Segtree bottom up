@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int n;
+vector<long long> tree;
+
+// Build segment tree
+void build(vector<int>& arr) {
+    for (int i = 0; i < n; i++)
+        tree[n + i] = arr[i];
+
+    for (int i = n - 1; i >= 1; i--)
+        tree[i] = tree[2 * i] + tree[2 * i + 1];
+}
+
+// Range sum query [a, b] (inclusive, 0-indexed)
+long long sum(int a, int b) {
+    a += n;
+    b += n;
+    long long s = 0;
+
+    while (a <= b) {
+        if (a % 2 == 1) s += tree[a++];
+        if (b % 2 == 0) s += tree[b--];
+
+        a /= 2;
+        b /= 2;
+    }
+
+    return s;
+}
+
+// Increase arr[k] by x
+void add(int k, int x) {
+    k += n;
+    tree[k] += x;
+
+    for (k /= 2; k >= 1; k /= 2)
+        tree[k] = tree[2 * k] + tree[2 * k + 1];
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int q;
+    cin >> n >> q;
+
+    vector<int> arr(n);
+    for (int &x : arr) cin >> x;
+
+    tree.resize(2 * n, 0);
+    build(arr);
+
+    while (q--) {
+        int type;
+        cin >> type;
+
+        if (type == 1) {
+            int k, x;
+            cin >> k >> x;
+            add(k - 1, x);
+        } else {
+            int a, b;
+            cin >> a >> b;
+            cout << sum(a - 1, b - 1) << '\n';
+        }
+    }
+}
