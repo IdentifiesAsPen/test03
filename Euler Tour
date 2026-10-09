@@ -1,0 +1,12 @@
+vector<int> order;
+
+void dfs(int u) {
+   while (!g[u].empty()) {
+       auto [v, id] = g[u].back();
+       g[u].pop_back();
+
+       dfs(v);
+
+       order.push_back(id);
+   }
+}
